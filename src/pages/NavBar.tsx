@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 /* Routing - The <Outlet> renders the current route selected. */
-import { Outlet, Link } from "react-router-dom";;
+import { Outlet, Link, useNavigate } from "react-router-dom";;
 /* Taquito */
 import { TezosToolkit } from "@taquito/taquito";
 import ConnectButton from "../components/ConnectWallet";
@@ -43,9 +43,16 @@ const NavBar = () => {
   const [copiedPublicToken, setCopiedPublicToken] = useState<boolean>(false);
   const [beaconConnection, setBeaconConnection] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<string>("transfer");
-
-  // Ghostnet Increment/Decrement contract
+  
+  /* Ghostnet Increment/Decrement contract */
   const contractAddress: string = "KT1QMGSLynvwwSfGbaiJ8gzWHibTCweCGcu8";
+
+  /* sending data to other page */
+  const navigate = useNavigate();
+  // const data = { name: 'John', age: 30 };
+  function handleClick() {
+    navigate('/mywallet', { state: {userAddress, userBalance} });
+  }
 
   return (
     <>
@@ -65,8 +72,9 @@ const NavBar = () => {
                     if (userAddress && !isNaN(userBalance)) {
                       return (
                         <>
-                          <div>wallet connected</div>
-                          <Link to="/mywallet">My Wallet</Link>
+                          <Box>wallet connected</Box>
+                          {/* <Link to="/mywallet">My Wallet</Link> */}
+                          <Box p={2} sx={{cursor:"pointer", color: "royalblue"}} onClick={handleClick}>My Wallet</Box>                         
                           <DisconnectButton
                             wallet={wallet}
                             setPublicToken={setPublicToken}
@@ -81,7 +89,7 @@ const NavBar = () => {
                     } else if (!userAddress && !userBalance) {
                       return (
                         <>
-                          <div>wallet disconnected</div>
+                          <Box>wallet disconnected</Box>
                           <ConnectButton
                             Tezos={Tezos}
                             setContract={setContract}

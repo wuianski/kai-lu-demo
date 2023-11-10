@@ -1,3 +1,5 @@
+import React from 'react';
+import {useLocation } from 'react-router-dom';
 /* MUI */
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -15,10 +17,33 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 const MyWallet = () => {
+    /* receiving state from NavBar */
+    const { state } = useLocation();
+    // console.log(state.userAddress)
     return (
       <>
         <Container maxWidth="lg">
-          <Box p={2}>My Wallet</Box>
+          <Box p={2}>
+            <Box>My Wallet</Box>
+            <Box>
+            <p>
+              <i className="far fa-address-card"></i>&nbsp;
+              <a
+                href={`https://ghostnet.tzkt.io/${state.userAddress}/operations/`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {state.userAddress}
+              </a>
+            </p>
+            </Box>
+            <Box>
+              <p>
+                <i className="fas fa-piggy-bank"></i>&nbsp;
+                {(state.userBalance / 1000000).toLocaleString("en-US")} ꜩ
+              </p>
+            </Box>
+          </Box>
         </Container>
       </>
     );
