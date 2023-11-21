@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 /* Routing - The <Outlet> renders the current route selected. */
-import { Outlet, Link, useNavigate } from "react-router-dom";;
+import { Outlet, Link, useNavigate} from "react-router-dom";
 /* Taquito */
 import { TezosToolkit } from "@taquito/taquito";
 import ConnectButton from "../components/ConnectWallet";
@@ -20,13 +20,14 @@ enum BeaconConnection {
   PERMISSION_REQUEST_SUCCESS = "Wallet is connected",
 }
 
-/* style Grid Item */
+/* Style Grid Item */
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
-  padding: theme.spacing(1),
+  // padding: theme.spacing(1),
   textAlign: 'center',
   color: theme.palette.text.secondary,
+  boxShadow: "none",
 }));
 
 const NavBar = () => {
@@ -47,9 +48,8 @@ const NavBar = () => {
   /* Ghostnet Increment/Decrement contract */
   const contractAddress: string = "KT1QMGSLynvwwSfGbaiJ8gzWHibTCweCGcu8";
 
-  /* sending data to other page */
+  /* Routing - Navigate and send data to MyWallet */
   const navigate = useNavigate();
-  // const data = { name: 'John', age: 30 };
   function handleClick() {
     navigate('/mywallet', { state: {userAddress, userBalance} });
   }
@@ -60,21 +60,19 @@ const NavBar = () => {
           <Box p={2} sx={{ flexGrow: 1 }}>
             <Grid container spacing={2}>
               <Grid xs={2}>
-                <Item><Link to="/">Logo</Link></Item>
+                <Item><Link to="/"><Box sx={{color:"#000", textAlign:"left"}} pl={2}>Home</Box></Link></Item>
               </Grid>
               <Grid xs={4} xsOffset={4}>
-                <Item>Menu</Item>
+                {/* <Item>Menu</Item> */}
               </Grid>
-              <Grid xs={2}>
+              <Grid xs>
                 <Item>
                 <>
                   {(() => {
-                    if (userAddress && !isNaN(userBalance)) {
+                      if (userAddress && !isNaN(userBalance)) {
                       return (
-                        <>
-                          <Box>wallet connected</Box>
-                          {/* <Link to="/mywallet">My Wallet</Link> */}
-                          <Box p={2} sx={{cursor:"pointer", color: "royalblue"}} onClick={handleClick}>My Wallet</Box>                         
+                        <>                    
+                          <Box p={2} sx={{cursor:"pointer", color: "royalblue"}} onClick={handleClick}>My Wallet</Box>      
                           <DisconnectButton
                             wallet={wallet}
                             setPublicToken={setPublicToken}
@@ -84,12 +82,12 @@ const NavBar = () => {
                             setTezos={setTezos}
                             setBeaconConnection={setBeaconConnection}
                           />
+                          <Box>wallet connected</Box>
                         </>
                       );
                     } else if (!userAddress && !userBalance) {
                       return (
-                        <>
-                          <Box>wallet disconnected</Box>
+                        <>                       
                           <ConnectButton
                             Tezos={Tezos}
                             setContract={setContract}
@@ -102,6 +100,7 @@ const NavBar = () => {
                             setBeaconConnection={setBeaconConnection}
                             wallet={wallet}
                           />
+                          <Box>wallet disconnected</Box>
                         </>
                       );
                     } else {

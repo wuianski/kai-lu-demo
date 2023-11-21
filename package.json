@@ -14,6 +14,7 @@
     "@mui/material": "^5.14.17",
     "@taquito/beacon-wallet": "^17.0.0",
     "@taquito/taquito": "^17.0.0",
+    "axios": "^1.6.2",
     "buffer": "^6.0.3",
     "events": "^3.3.0",
     "qrcode-generator": "^1.4.4",

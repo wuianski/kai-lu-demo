@@ -1,6 +1,8 @@
 import React, { Dispatch, SetStateAction } from "react";
 import { BeaconWallet } from "@taquito/beacon-wallet";
 import { TezosToolkit } from "@taquito/taquito";
+/* Routing - Navigate programmatically */
+import { useNavigate } from "react-router-dom";
 
 interface ButtonProps {
   wallet: BeaconWallet | null;
@@ -19,10 +21,14 @@ const DisconnectButton = ({
   setUserBalance,
   setWallet,
   setTezos,
-  setBeaconConnection
+  setBeaconConnection,
 }: ButtonProps): JSX.Element => {
+  /* Routing - Navigate programmatically */
+  const navigate = useNavigate();
   const disconnectWallet = async (): Promise<void> => {
     if (wallet) {
+      /* Routing - Navigate to Home page */
+      navigate("/");
       await wallet.clearActiveAccount();
     }
     setUserAddress("");
